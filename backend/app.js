@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mysql from "mysql2";
+import cors from "cors";
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ const db = mysql.createConnection({
   database: process.env.DB_DATABASE,
 });
 
+app.use(cors());
 app.use(express.json());
 app.get("/", (req, res) => {
   res.json({ message: "hello" });
@@ -31,8 +33,14 @@ app.get("/books", (req, res) => {
   });
 });
 app.post("/books", (req, res) => {
-  const bookQuery = "INSERT INTO books (`title`,`desc`,`cover`) VALUES (?)";
-  const values = [req.body.title, req.body.desc, req.body.cover];
+  const bookQuery =
+    "INSERT INTO books (`title`,`desc`,`price`,`cover`) VALUES (?)";
+  const values = [
+    req.body.title,
+    req.body.desc,
+    req.body.price,
+    req.body.cover,
+  ];
   db.query(bookQuery, [values], (err, book) => {
     if (err) {
       console.log(err);

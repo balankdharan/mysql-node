@@ -52,7 +52,9 @@ const Add = () => {
         id="cover"
         placeholder="cover of book"
       />
-      <button onClick={handleClick}>Add</button>
+      <button className="formButton" onClick={handleClick}>
+        Add
+      </button>
     </div>
   );
 };

@@ -61,6 +61,23 @@ app.delete("/books/:id", (req, res) => {
     return res.json("Book has been deleted");
   });
 });
+app.put("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const dbQuery =
+    "UPDATE books SET `title`= ?,`desc`= ?,`price`= ?,`cover` = ? WHERE id = ?";
+  const values = [
+    req.body.title,
+    req.body.desc,
+    req.body.price,
+    req.body.cover,
+  ];
+  db.query(dbQuery, [...values, bookId], (err, book) => {
+    if (err) {
+      return res.json(err);
+    }
+    return res.json("Book has been Updated");
+  });
+});
 app.listen(PORT, () => {
   console.log(`Port is listening on ${PORT}`);
 });
